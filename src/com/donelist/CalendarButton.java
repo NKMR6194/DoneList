@@ -5,6 +5,9 @@ import java.util.Date;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,6 +53,10 @@ public class CalendarButton{
         for(int date=1; date<=dateMax; date++){
             button[date+firstDayWeek].setText("" + date);
             button[date+firstDayWeek].setEnabled(true);
+            
+            if(checkDone(date) == true){
+                button[date+firstDayWeek].setBackgroundColor(Color.argb(50, 255, 255, 0));
+            }
         }
         
         monthText.setText(calendar.get(Calendar.YEAR) + "/" + (calendar.get(Calendar.MONTH) + 1));
@@ -77,6 +84,36 @@ public class CalendarButton{
             intent.putExtra("date", date);
             context.startActivity(intent);
         }
+    }
+    
+    public boolean checkDone(int date){
+            boolean bool;
+            String databasePath = "data/data/" + context.getPackageName() + "/diary.db";
+            String tableName = "data" + String.format("%4d%2d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
+            SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databasePath, null);
+            
+            String findTableQuery = "select * from sqlite_master where type='table' and name='" + tableName + "';";
+            Cursor findTableCursor = database.rawQuery(findTableQuery, null);
+            
+            if(findTableCursor.getCount() == 1){
+                String query = "select * from " + tableName + " where date = " + date + "";
+                Cursor cursor = database.rawQuery(query, null);
+                
+                if(cursor.getCount() >= 1){
+                    bool = true;
+                }
+                else{
+                    bool = false;
+                }
+                
+            }
+            else{
+                bool = false;
+            }
+            
+            database.close();
+            
+            return bool;
     }
     
 }
