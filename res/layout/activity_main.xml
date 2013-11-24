@@ -36,13 +36,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5" />
-            <Button
+            <ImageButton
                 android:id="@+id/buttonAdd"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:scaleType="centerInside"
                 android:layout_weight="0.5"
                 android:background="@layout/lay"
-                android:text="+" />
+                android:src="@drawable/pen_3"
+                />
             <Button
                 android:id="@+id/buttonNext"
                 android:layout_width="0dp"
