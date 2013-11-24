@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 
 public class MainActivity extends Activity {
 
+    CalendarButton calendarButton;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +29,19 @@ public class MainActivity extends Activity {
         calendar.setTime(new Date());
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1);
         
-        CalendarButton calendarButton = new CalendarButton(grandParent, headText, calendar.getTime(), MainActivity.this);
+        calendarButton = new CalendarButton(grandParent, headText, calendar.getTime(), MainActivity.this);
         calendarButton.setButtonText();
+        //calendarButton.setButtonColor();
         calendarButton.setListener();
     }
+    
+    @Override
+    protected void onResume(){
+        super.onResume();
+        //setContentView(R.layout.activity_main);
+        calendarButton.setButtonColor();
+    }
+    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -38,7 +49,6 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
-    
 
 }
+

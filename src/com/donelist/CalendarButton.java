@@ -46,6 +46,7 @@ public class CalendarButton{
         for(int i=0; i<42; i++){
             button[i].setText("");
             button[i].setEnabled(false);
+            //button[i].setBackgroundColor(Color.argb(50, 255, 255, 0));
         }
         
         int dateMax = calendar.getActualMaximum(Calendar.DATE);
@@ -54,12 +55,28 @@ public class CalendarButton{
             button[date+firstDayWeek].setText("" + date);
             button[date+firstDayWeek].setEnabled(true);
             
+            /*
             if(checkDone(date) == true){
                 button[date+firstDayWeek].setBackgroundColor(Color.argb(50, 255, 255, 0));
             }
+            */
         }
         
         monthText.setText(calendar.get(Calendar.YEAR) + "/" + (calendar.get(Calendar.MONTH) + 1));
+    }
+    
+    public void setButtonColor(){
+        int dateMax = calendar.getActualMaximum(Calendar.DATE);
+        int firstDayWeek = calendar.get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY - 1;
+        
+        for(int date=1; date<=dateMax; date++){
+            if(checkDone(date) == true){
+                button[date+firstDayWeek].setBackgroundColor(Color.argb(50, 255, 255, 0));
+            }
+            else{
+                button[date+firstDayWeek].setBackgroundColor(Color.argb(0, 0, 0, 0));
+            }
+        }
     }
     
     public void setListener(){
