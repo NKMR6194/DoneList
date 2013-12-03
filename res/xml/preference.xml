@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference android:title="目標の追加" android:summary="新規の目標を入力します" android:key="enterNewTarget"/>
+
+</PreferenceScreen>

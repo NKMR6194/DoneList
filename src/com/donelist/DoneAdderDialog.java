@@ -6,10 +6,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.Gravity;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class DoneAdderDialog{
     private AlertDialog.Builder dialog;
@@ -21,33 +23,41 @@ public class DoneAdderDialog{
     
     public DoneAdderDialog(Activity activity, int year, int month, int date, AddResult result){
         parentActivity = activity;
-        addResult = result;
-        
-        dialog = new AlertDialog.Builder(activity);
         
         target = new DoneTarget(activity);
         target.loadTarget();
         List<String> targetList = target.getTargetList();
         
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, targetList);
+        if(targetList.isEmpty() == false){
+            addResult = result;
         
-        LinearLayout layout = new LinearLayout(activity);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        
-        spinner = new Spinner(activity);
-        spinner.setAdapter(adapter);
-        layout.addView(spinner);
-        
-        datePicker = new DatePicker(activity);
-        datePicker.setCalendarViewShown(false);
-        datePicker.updateDate(year, month, date);
-        layout.addView(datePicker);
-        
-        dialog.setView(layout);
-        
-        dialog.setPositiveButton("決定", new DialogClickListener());
-        dialog.setNegativeButton("戻る", null);   
-        dialog.show();
+            dialog = new AlertDialog.Builder(activity);
+            
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, targetList);
+            
+            LinearLayout layout = new LinearLayout(activity);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            
+            spinner = new Spinner(activity);
+            spinner.setAdapter(adapter);
+            layout.addView(spinner);
+            
+            datePicker = new DatePicker(activity);
+            datePicker.setCalendarViewShown(false);
+            datePicker.updateDate(year, month, date);
+            layout.addView(datePicker);
+            
+            dialog.setView(layout);
+            
+            dialog.setPositiveButton("決定", new DialogClickListener());
+            dialog.setNegativeButton("戻る", null);   
+            dialog.show();
+        }
+        else{
+            Toast toast = Toast.makeText(activity, "目標が設定されていません", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            toast.show();
+        }
     }
     
     class DialogClickListener implements DialogInterface.OnClickListener{

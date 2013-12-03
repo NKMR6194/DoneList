@@ -16,7 +16,6 @@ public class OneDay extends Activity{
     private String databasePath;
     private String tableName;
     private List<Done> done;
-    //private DoneAdderDialog addDialog;
     
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -71,8 +70,6 @@ public class OneDay extends Activity{
                 bool = true;
             }
             else{
-                //addDialog = 
-                //new DoneAdderDialog(OneDay.this, year, month, date);
                 bool = false;
             }
             
@@ -80,8 +77,6 @@ public class OneDay extends Activity{
         else{
             String createTableQuery = "create table " + tableName + " (date int, done char(10));";
             database.execSQL(createTableQuery);
-            //addDialog = 
-            //new DoneAdderDialog(OneDay.this, year, month, date);
             bool = false;
         }
         
@@ -115,8 +110,6 @@ public class OneDay extends Activity{
                 layout.addView(doneText);
             }
         }
-        
-       
     }
     
 }

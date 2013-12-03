@@ -22,11 +22,11 @@ public class DoneTarget{
         activity = thisActivity;
         tableName = "setting";
         databasePath = "data/data/" + activity.getPackageName() + "/diary.db";
+        list = new ArrayList<String>();
     }
     
-    public void loadTarget(){
-        list = new ArrayList<String>();
-        
+    public boolean loadTarget(){
+        boolean result;
         SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databasePath, null);
         
         String findTableQuery = "select * from sqlite_master where type='table' and name='" + tableName + "';";
@@ -44,18 +44,20 @@ public class DoneTarget{
                     list.add( cursor.getString(columnIndex) );
                 }while(cursor.moveToNext());
                 
+                result =  true;
             }
             else{
-                setDoneTarget(false);
+                result =  false;
             }
         }
         else{
             String createTableQuery = "create table " + tableName + " (item char(10), setting text);";
             database.execSQL(createTableQuery);
-            setDoneTarget(false);
+            result =  false;
         }
         
         database.close();
+        return result;
     }
     
     public void setDoneTarget(boolean inputMiss){
@@ -63,17 +65,20 @@ public class DoneTarget{
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.VERTICAL);
         
+        dialog.setTitle("目標");
+        
         if(inputMiss){
             dialog.setMessage("設定に失敗しました\nもう一度入力してください");
         }
         else{
-            dialog.setMessage("あなたが記録したい事を教えてください\n(設定で追加や編集ができます)");
+            dialog.setMessage("記録したい事を入力してください\n(設定で追加や編集ができます)");
         }
         
         editText = new EditText(activity);
         layout.addView(editText);
         dialog.setView(layout);
         dialog.setPositiveButton("決定", new DialogClickListener());
+        dialog.setNegativeButton("戻る", null);
         dialog.show();
     }
     
